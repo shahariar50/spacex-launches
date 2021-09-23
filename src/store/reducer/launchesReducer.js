@@ -9,5 +9,9 @@ const launchesSlice = createSlice({
   },
 });
 
-export const { setLaunchesSlice, setLaunches } = launchesSlice.actions;
+export const {
+  loadLaunches = "launches/loadLaunches",
+  setLaunchesState,
+  setLaunches,
+} = launchesSlice.actions;
 export default launchesSlice.reducer;
