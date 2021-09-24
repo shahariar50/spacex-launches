@@ -1,26 +1,19 @@
 import { all, put, takeEvery, call } from "redux-saga/effects";
-import {
-  getLaunchesApi,
-  getLaunchesByFilterApi,
-} from "../../service/launcheService";
+import { getLaunchesApi } from "../../service/launcheService";
 import {
   loadLaunches,
   setLaunches,
   setLaunchesState,
 } from "../reducer/launchesReducer";
 
-function* LOAD_LAUNCHES({ payload }) {
+function* LOAD_LAUNCHES() {
   yield put(setLaunchesState({ loading: true }));
 
-  let launches;
+  let launches = yield call(() => getLaunchesApi());
 
-  if (payload) {
-    launches = yield call(() => getLaunchesByFilterApi(payload));
-  } else {
-    launches = yield call(() => getLaunchesApi());
+  if (launches) {
+    yield put(setLaunches(launches));
   }
-
-  yield put(setLaunches(launches));
 
   yield put(setLaunchesState({ loading: false }));
 }
